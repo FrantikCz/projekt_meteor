@@ -10,15 +10,15 @@ pygame.display.set_caption("Ovládání trojúhelníku")
 
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
-BLUE = (0, 0, 255)
-BROWN = (139, 69, 19)
+BLUE = (0, 255, 255)
+BROWN = (238, 203, 173)
 
 x = WIDTH // 2
 y = HEIGHT - 50
 speed = 5  
 
 bullets = []
-bullet_speed = 7
+bullet_speed = 11
 
 enemies = []
 for _ in range(5):
@@ -80,3 +80,4 @@ while running:
     pygame.display.update()
 
 pygame.quit()
+ 
