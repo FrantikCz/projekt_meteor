@@ -74,7 +74,13 @@ while running:
         pygame.draw.circle(screen, BLUE, (bullet[0], bullet[1]), 5)
     for enemy in enemies:
         pygame.draw.circle(screen, BROWN, enemy, 15)
-          
+
+    if not enemies:
+        for _ in range(5):
+            enemy_x = random.randint(20, WIDTH - 20)
+            enemy_y = random.randint(20, 100)
+            enemies.append((enemy_x, enemy_y))
+
     pygame.display.update()
 
 pygame.quit()
