@@ -7,18 +7,27 @@ WIDTH, HEIGHT = 500, 600
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Ovládání trojúhelníku")
 
-#Změna pozadí/skin :3----------------------------------------------
-background = pygame.image.load("pozadi_vesmir.png")              #|
-background = pygame.transform.scale(background, (WIDTH, HEIGHT)) #|
+#Změna pozadí :3--------------------------------------------------
+#background = pygame.image.load("pozadi_vesmir.png")              #|
+#background = pygame.transform.scale(background, (WIDTH, HEIGHT)) #|
+                                                                  #|
+background = pygame.image.load("sakura_pozadí.png")               #|
+background = pygame.transform.scale(background, (WIDTH, HEIGHT))  #|
+                                                                  #|
+#background = pygame.image.load("mesto_pozadi.png")               #|
+#background = pygame.transform.scale(background, (WIDTH, HEIGHT)) #|
+                                                                  #|
+#Změna skinu  :D--------------------------------------------------
+#rocket_img = pygame.image.load("raketa_new.png") 
+#rocket_img = pygame.transform.scale(rocket_img, (60, 80))
+
+#rocket_img = pygame.image.load("raketa_new_01.png")
+#rocket_img = pygame.transform.scale(rocket_img, (60, 80))
+
+rocket_img = pygame.image.load("kebab_new.png")
+rocket_img = pygame.transform.scale(rocket_img, (60, 80))
 #------------------------------------------------------------------
 
-rocket_img = pygame.image.load("raketa_new.png")  # Načtení obrázku
-rocket_img = pygame.transform.scale(rocket_img, (60, 80))
-
-#
-#
-#
-#
 WHITE = (255, 255, 255)
 BLACK = (255, 255, 255)
 BLUE = (0, 255, 0)
