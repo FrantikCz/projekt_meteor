@@ -7,12 +7,21 @@ WIDTH, HEIGHT = 500, 600
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Ovládání trojúhelníku")
 
-background = pygame.image.load("pozadi_vesmir.png")
-background = pygame.transform.scale(background, (WIDTH, HEIGHT))
+#Změna pozadí/skin :3----------------------------------------------
+background = pygame.image.load("pozadi_vesmir.png")              #|
+background = pygame.transform.scale(background, (WIDTH, HEIGHT)) #|
+#------------------------------------------------------------------
 
+rocket_img = pygame.image.load("raketa_new.png")  # Načtení obrázku
+rocket_img = pygame.transform.scale(rocket_img, (60, 80))
+
+#
+#
+#
+#
 WHITE = (255, 255, 255)
 BLACK = (255, 255, 255)
-BLUE = (0, 255, 255)
+BLUE = (0, 255, 0)
 BROWN = (238, 203, 173)
 
 x = WIDTH // 2
@@ -22,6 +31,9 @@ speed = 5
 bullets = []
 bullet_speed = 11
 enemies = []
+score = 0
+
+font = pygame.font.Font(None, 36)
 
 for _ in range(5):
     enemy_x = random.randint(20, WIDTH - 20)  
@@ -44,10 +56,6 @@ while running:
     if keys[pygame.K_RIGHT] and x + 15 < WIDTH:
         x += speed
 
-    points = [(x, y), (x + 15, y + 30), (x - 15, y + 30)]
-    pygame.draw.polygon(screen, BLACK, points)
-
-
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False  
@@ -56,7 +64,8 @@ while running:
                 bullets.append([x, y - 10])
                 
     screen.blit(background, (0, 0))
-                
+    screen.blit(rocket_img, (x - 15, y))
+    
     for bullet in bullets:
         bullet[1] -= bullet_speed  
 
@@ -65,11 +74,12 @@ while running:
         for enemy in enemies[:]:
             if is_collision(bullet, enemy):
                 bullets.remove(bullet)  
-                enemies.remove(enemy)  
+                enemies.remove(enemy)
+                score += 1
                 break 
 
     points = [(x, y), (x + 15, y + 30), (x - 15, y + 30)]
-    pygame.draw.polygon(screen, BLACK, points)
+    
     for bullet in bullets:
         pygame.draw.circle(screen, BLUE, (bullet[0], bullet[1]), 5)
     for enemy in enemies:
@@ -80,6 +90,9 @@ while running:
             enemy_x = random.randint(20, WIDTH - 20)
             enemy_y = random.randint(20, 100)
             enemies.append((enemy_x, enemy_y))
+            
+    score_text = font.render(f"Skóre: {score}", True, WHITE)
+    screen.blit(score_text, (10, 10))
 
     pygame.display.update()
 
