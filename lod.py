@@ -63,7 +63,7 @@ def reset_enemy(enemy):
 
 def is_collision(bullet, enemy):
     distance = math.hypot(bullet[0] - enemy[0], bullet[1] - enemy[1])
-    return distance < 15
+    return distance < 40
 
 running = True
 clock = pygame.time.Clock() 
@@ -108,13 +108,12 @@ while running:
     
     for bullet in bullets:
         pygame.draw.circle(screen, BLUE, (bullet[0], bullet[1]), 5)
-    #for enemy in enemies:
-        #pygame.draw.circle(screen, BROWN, enemy, 15)
+
     for enemy in enemies:
         screen.blit(meteor_img, (enemy[0] - 40, enemy[1] - 40))
 
     if not enemies:
-        for _ in range(5):
+        for _ in range(10):
             enemy_x = random.randint(20, WIDTH - 20)
             enemy_y = random.randint(20, 100)
             enemies.append([enemy_x, enemy_y])
