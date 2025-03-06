@@ -8,15 +8,15 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Ovládání trojúhelníku")
 
 #Změna pozadí :3--------------------------------------------------
-#background = pygame.image.load("pozadi_vesmir.png")              #|
-#background = pygame.transform.scale(background, (WIDTH, HEIGHT)) #|
-                                                                  #|
-background = pygame.image.load("sakura_pozadí.png")               #|
-background = pygame.transform.scale(background, (WIDTH, HEIGHT))  #|
-                                                                  #|
-#background = pygame.image.load("mesto_pozadi.png")               #|
-#background = pygame.transform.scale(background, (WIDTH, HEIGHT)) #|
-                                                                  #|
+#background = pygame.image.load("pozadi_vesmir.png")              
+#background = pygame.transform.scale(background, (WIDTH, HEIGHT)) 
+                                                                  
+background = pygame.image.load("sakura_pozadí.png")               
+background = pygame.transform.scale(background, (WIDTH, HEIGHT))  
+                                                                  
+#background = pygame.image.load("mesto_pozadi.png")               
+#background = pygame.transform.scale(background, (WIDTH, HEIGHT)) 
+                                                                  
 #Změna skinu  :D--------------------------------------------------
 #rocket_img = pygame.image.load("raketa_new.png") 
 #rocket_img = pygame.transform.scale(rocket_img, (60, 80))
@@ -26,7 +26,14 @@ background = pygame.transform.scale(background, (WIDTH, HEIGHT))  #|
 
 rocket_img = pygame.image.load("kebab_new.png")
 rocket_img = pygame.transform.scale(rocket_img, (60, 80))
-#------------------------------------------------------------------
+#Změna meteoritu---------------------------------------------------
+meteor_img = pygame.image.load("meteorit.png")  
+meteor_img = pygame.transform.scale(meteor_img, (80, 80))
+
+#meteor_img = pygame.image.load("meteorit_2.png")  
+#meteor_img = pygame.transform.scale(meteor_img, (80, 80))
+
+
 
 WHITE = (255, 255, 255)
 BLACK = (255, 255, 255)
@@ -38,8 +45,9 @@ y = HEIGHT - 50
 speed = 5  
 
 bullets = []
-bullet_speed = 11
+bullet_speed = 9
 enemies = []
+enemy_speed = 2
 score = 0
 
 font = pygame.font.Font(None, 36)
@@ -47,7 +55,11 @@ font = pygame.font.Font(None, 36)
 for _ in range(5):
     enemy_x = random.randint(20, WIDTH - 20)  
     enemy_y = random.randint(20, 100)         
-    enemies.append((enemy_x, enemy_y))
+    enemies.append([enemy_x, enemy_y])
+    
+def reset_enemy(enemy):
+    enemy[0] = random.randint(20, WIDTH - 20)
+    enemy[1] = random.randint(-50, -10)
 
 def is_collision(bullet, enemy):
     distance = math.hypot(bullet[0] - enemy[0], bullet[1] - enemy[1])
@@ -55,7 +67,6 @@ def is_collision(bullet, enemy):
 
 running = True
 clock = pygame.time.Clock() 
-
 while running:
     clock.tick(60)
     
@@ -76,9 +87,15 @@ while running:
     screen.blit(rocket_img, (x - 15, y))
     
     for bullet in bullets:
-        bullet[1] -= bullet_speed  
+        bullet[1] -= bullet_speed
+        
+    for enemy in enemies:
+        enemy[1] += enemy_speed  
+        if enemy[1] > HEIGHT:  
+            reset_enemy(enemy)
 
     bullets = [bullet for bullet in bullets if bullet[1] > 0]
+
     for bullet in bullets[:]:  
         for enemy in enemies[:]:
             if is_collision(bullet, enemy):
@@ -91,18 +108,19 @@ while running:
     
     for bullet in bullets:
         pygame.draw.circle(screen, BLUE, (bullet[0], bullet[1]), 5)
+    #for enemy in enemies:
+        #pygame.draw.circle(screen, BROWN, enemy, 15)
     for enemy in enemies:
-        pygame.draw.circle(screen, BROWN, enemy, 15)
+        screen.blit(meteor_img, (enemy[0] - 40, enemy[1] - 40))
 
     if not enemies:
         for _ in range(5):
             enemy_x = random.randint(20, WIDTH - 20)
             enemy_y = random.randint(20, 100)
-            enemies.append((enemy_x, enemy_y))
+            enemies.append([enemy_x, enemy_y])
             
     score_text = font.render(f"Skóre: {score}", True, WHITE)
     screen.blit(score_text, (10, 10))
-
     pygame.display.update()
 
 pygame.quit()
