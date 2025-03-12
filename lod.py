@@ -39,6 +39,7 @@ WHITE = (255, 255, 255)
 BLACK = (255, 255, 255)
 BLUE = (0, 255, 0)
 BROWN = (238, 203, 173)
+RED = (255, 0, 0)
 
 x = WIDTH // 2
 y = HEIGHT - 50
@@ -61,14 +62,43 @@ def reset_enemy(enemy):
     enemy[0] = random.randint(20, WIDTH - 20)
     enemy[1] = random.randint(-50, -10)
 
-def is_collision(bullet, enemy):
-    distance = math.hypot(bullet[0] - enemy[0], bullet[1] - enemy[1])
-    return distance < 40
+def is_collision(obj1, obj2, radius=40):
+    distance = math.hypot(obj1[0] - obj2[0], obj1[1] - obj2[1])
+    return distance < radius
 
 running = True
+game_over = False
 clock = pygame.time.Clock() 
 while running:
     clock.tick(60)
+    
+    if game_over: 
+
+        screen.fill(BLACK)
+        game_over_text = font.render("GAME OVER", True, RED)
+        score_text = font.render(f"Skóre: {score}", True, WHITE)
+        screen.blit(game_over_text, (WIDTH // 2 - 80, HEIGHT // 2 - 40))
+        screen.blit(score_text, (WIDTH // 2 - 50, HEIGHT // 2 + 10))
+        pygame.display.update()
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_r:
+
+                    game_over = False
+                    score = 0
+                    x = WIDTH // 2
+                    y = HEIGHT - 50
+                    enemies = []
+                    bullets = []
+                    for _ in range(5):
+                        enemy_x = random.randint(20, WIDTH - 20)  
+                        enemy_y = random.randint(20, 100)         
+                        enemies.append([enemy_x, enemy_y])
+                        
+        continue
     
     keys = pygame.key.get_pressed()
     if keys[pygame.K_LEFT] and x - 15 > 0:
@@ -85,6 +115,11 @@ while running:
                 
     screen.blit(background, (0, 0))
     screen.blit(rocket_img, (x - 15, y))
+    
+    for enemy in enemies:
+        if is_collision((x, y), enemy, 40):
+            game_over = True
+            break 
     
     for bullet in bullets:
         bullet[1] -= bullet_speed
