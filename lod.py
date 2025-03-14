@@ -15,11 +15,11 @@ pygame.display.set_caption("Ovládání trojúhelníku")
 #background = pygame.image.load("sakura_pozadí.png")               
 #background = pygame.transform.scale(background, (WIDTH, HEIGHT))  
                                                                   
-#background = pygame.image.load("mesto_pozadi.png")               
-#background = pygame.transform.scale(background, (WIDTH, HEIGHT))
-
-background = pygame.image.load("spagety.png")
+background = pygame.image.load("mesto_pozadi.png")               
 background = pygame.transform.scale(background, (WIDTH, HEIGHT))
+
+#background = pygame.image.load("spagety.png")
+#background = pygame.transform.scale(background, (WIDTH, HEIGHT))
                                                                   
 #Změna skinu  :D--------------------------------------------------
 #rocket_img = pygame.image.load("raketa_new.png") 
@@ -31,11 +31,14 @@ rocket_img = pygame.transform.scale(rocket_img, (60, 80))
 #rocket_img = pygame.image.load("kebab_new.png")
 #rocket_img = pygame.transform.scale(rocket_img, (60, 80))
 #Změna meteoritu---------------------------------------------------
-meteor_img = pygame.image.load("meteorit.png")  
-meteor_img = pygame.transform.scale(meteor_img, (80, 80))
+#meteor_img = pygame.image.load("meteorit.png")                      #masová kule
+#meteor_img = pygame.transform.scale(meteor_img, (80, 80))
 
 #meteor_img = pygame.image.load("meteorit_2.png")
 #meteor_img = pygame.transform.scale(meteor_img, (80, 80))
+
+meteor_img = pygame.image.load("cgeese_ball.png")
+meteor_img = pygame.transform.scale(meteor_img, (80, 80))
 #-----------------------------------------------------------------
 
 WHITE = (255, 255, 255)
@@ -49,14 +52,15 @@ y = HEIGHT - 50
 speed = 5  
 
 bullets = []
-bullet_speed = 9
+bullet_speed = 7
 enemies = []
-enemy_speed = 2
+enemy_speed = 5
 score = 0
 
 shield_active = False
 shield_start_time = 0
-font = pygame.font.Font(None, 36)
+triple_shot_active = False  
+triple_shot_start = 0
 
 font = pygame.font.Font(None, 36)
 
@@ -86,7 +90,7 @@ while running:
         score_text = font.render(f"Skóre: {score}", True, RED)
         screen.blit(game_over_text, (WIDTH // 2 - 80, HEIGHT // 2 - 40))
         screen.blit(score_text, (WIDTH // 2 - 50, HEIGHT // 2 + 10))
-        restart_text = font.render("Stiskni 'R' pro restart", True, WHITE)
+        restart_text = font.render("Stiskni 'R' pro restart", True, RED)
         screen.blit(restart_text, (WIDTH // 2 - 120, HEIGHT // 2 + 50))
         pygame.display.update()
 
@@ -121,11 +125,15 @@ while running:
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
                 bullets.append([x, y - 10])
+                bullets.append([x - 15, y - 10])  # Levá střela
+                bullets.append([x + 15, y - 10])  # Pravá střela
+            else:
+                bullets.append([x, y - 10])
                 
     screen.blit(background, (0, 0))
     screen.blit(rocket_img, (x - 15, y))
     
-    if shield_active and time.time() - shield_start_time > 5:  
+    if shield_active and time.time() - shield_start_time > 3:  
         shield_active = False 
     
     for enemy in enemies:
@@ -170,13 +178,18 @@ while running:
         screen.blit(meteor_img, (enemy[0] - 40, enemy[1] - 40))
 
     if not enemies:
-        for _ in range(10):
+        for _ in range(15):
             enemy_x = random.randint(20, WIDTH - 20)
             enemy_y = random.randint(20, 100)
             enemies.append([enemy_x, enemy_y])
             
     score_text = font.render(f"Skóre: {score}", True, WHITE)
     screen.blit(score_text, (10, 10))
+    
+    if triple_shot_active:
+        triple_shot_text = font.render("Triple Shot!", True, BLUE)
+        screen.blit(triple_shot_text, (WIDTH - 150, 10))
+
     pygame.display.update()
 
 pygame.quit()
