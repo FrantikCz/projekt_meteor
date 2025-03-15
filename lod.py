@@ -126,8 +126,8 @@ while running:
             if event.key == pygame.K_SPACE:
                 if triple_shot_active:
                     bullets.append([x, y - 10])
-                    bullets.append([x - 15, y - 10])  # Levá střela
-                    bullets.append([x + 15, y - 10])  # Pravá střela
+                    bullets.append([x - 15, y - 10])
+                    bullets.append([x + 15, y - 10]) 
                 else:
                     bullets.append([x, y - 10])
                 
@@ -187,6 +187,11 @@ while running:
     score_text = font.render(f"Skóre: {score}", True, WHITE)
     screen.blit(score_text, (10, 10))
     
+    if score % 30 == 0 and score > 0 and not triple_shot_active:
+        triple_shot_active = True
+        triple_shot_start = time.time()
+    if triple_shot_active and time.time() - triple_shot_start > 5:
+        triple_shot_active = False
     if triple_shot_active:
         triple_shot_text = font.render("Triple Shot!", True, BLUE)
         screen.blit(triple_shot_text, (WIDTH - 150, 10))
