@@ -124,11 +124,12 @@ while running:
             running = False  
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
-                bullets.append([x, y - 10])
-                bullets.append([x - 15, y - 10])  # Levá střela
-                bullets.append([x + 15, y - 10])  # Pravá střela
-            else:
-                bullets.append([x, y - 10])
+                if triple_shot_active:
+                    bullets.append([x, y - 10])
+                    bullets.append([x - 15, y - 10])  # Levá střela
+                    bullets.append([x + 15, y - 10])  # Pravá střela
+                else:
+                    bullets.append([x, y - 10])
                 
     screen.blit(background, (0, 0))
     screen.blit(rocket_img, (x - 15, y))
