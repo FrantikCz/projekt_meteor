@@ -56,6 +56,7 @@ bullet_speed = 7
 enemies = []
 enemy_speed = 5
 score = 0
+upgrade_cost = 10
 
 shield_active = False
 shield_start_time = 0
@@ -72,6 +73,18 @@ for _ in range(5):
 def reset_enemy(enemy):
     enemy[0] = random.randint(20, WIDTH - 20)
     enemy[1] = random.randint(-50, -10)
+    
+def upgrade_ship():
+    global ship_speed, bullet_speed, score
+    keys = pygame.key.get_pressed()
+    
+    if keys[pygame.K_s] and score >= upgrade_cost:
+        ship_speed += 2
+        score -= upgrade_cost
+    
+    if keys[pygame.K_d] and score >= upgrade_cost:
+        bullet_speed += 1
+        score -= upgrade_cost
 
 def is_collision(obj1, obj2, radius=40):
     distance = math.hypot(obj1[0] - obj2[0], obj1[1] - obj2[1])
@@ -118,6 +131,8 @@ while running:
         x -= speed
     if keys[pygame.K_RIGHT] and x + 15 < WIDTH:
         x += speed
+
+    upgrade_ship()
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -186,7 +201,14 @@ while running:
             
     score_text = font.render(f"Skóre: {score}", True, WHITE)
     screen.blit(score_text, (10, 10))
-    
+
+    upgrade_text = font.render(f"Vylepšení", True, WHITE)
+    screen.blit(upgrade_text, (10, 50))
+    upgrade_text = font.render("[S] Speed (+1) 10 Points", True, WHITE)
+    screen.blit(upgrade_text, (10, 100))
+    upgrade_text = font.render("[D] Bullet Speed (+2) 10 points", True, WHITE)
+    screen.blit(upgrade_text, (10, 150))
+
     if score % 30 == 0 and score > 0 and not triple_shot_active:
         triple_shot_active = True
         triple_shot_start = time.time()
