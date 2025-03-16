@@ -75,11 +75,11 @@ def reset_enemy(enemy):
     enemy[1] = random.randint(-50, -10)
     
 def upgrade_ship():
-    global ship_speed, bullet_speed, score
+    global speed, bullet_speed, score
     keys = pygame.key.get_pressed()
     
     if keys[pygame.K_s] and score >= upgrade_cost:
-        ship_speed += 2
+        speed += 2
         score -= upgrade_cost
     
     if keys[pygame.K_d] and score >= upgrade_cost:
