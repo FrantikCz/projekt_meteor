@@ -4,7 +4,8 @@ import math
 import time
 
 pygame.init()
-WIDTH, HEIGHT = 500, 600
+#Velikost obrazu
+WIDTH, HEIGHT = 700, 800
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Ovládání trojúhelníku")
 
@@ -12,33 +13,33 @@ pygame.display.set_caption("Ovládání trojúhelníku")
 #background = pygame.image.load("pozadi_vesmir.png")              
 #background = pygame.transform.scale(background, (WIDTH, HEIGHT)) 
                                                                   
-#background = pygame.image.load("sakura_pozadí.png")               
-#background = pygame.transform.scale(background, (WIDTH, HEIGHT))  
+background = pygame.image.load("sakura_pozadí.png")               
+background = pygame.transform.scale(background, (WIDTH, HEIGHT))  
                                                                   
-background = pygame.image.load("mesto_pozadi.png")               
-background = pygame.transform.scale(background, (WIDTH, HEIGHT))
+#background = pygame.image.load("mesto_pozadi.png")               
+#background = pygame.transform.scale(background, (WIDTH, HEIGHT))
 
 #background = pygame.image.load("spagety.png")
 #background = pygame.transform.scale(background, (WIDTH, HEIGHT))
                                                                   
 #Změna skinu  :D--------------------------------------------------
 #rocket_img = pygame.image.load("raketa_new.png") 
-#rocket_img = pygame.transform.scale(rocket_img, (60, 80))
+#rocket_img = pygame.transform.scale(rocket_img, (80, 100))
 
 rocket_img = pygame.image.load("raketa_new_01.png")
-rocket_img = pygame.transform.scale(rocket_img, (60, 80))
+rocket_img = pygame.transform.scale(rocket_img, (80, 100))
 
 #rocket_img = pygame.image.load("kebab_new.png")
-#rocket_img = pygame.transform.scale(rocket_img, (60, 80))
+#rocket_img = pygame.transform.scale(rocket_img, (80, 100))
 #Změna meteoritu---------------------------------------------------
-#meteor_img = pygame.image.load("meteorit.png")                      #masová kule
-#meteor_img = pygame.transform.scale(meteor_img, (80, 80))
+meteor_img = pygame.image.load("meteorit.png")                      #masová kule
+meteor_img = pygame.transform.scale(meteor_img, (100, 100))
 
 #meteor_img = pygame.image.load("meteorit_2.png")
-#meteor_img = pygame.transform.scale(meteor_img, (80, 80))
+#meteor_img = pygame.transform.scale(meteor_img, (100, 100))
 
-meteor_img = pygame.image.load("cgeese_ball.png")
-meteor_img = pygame.transform.scale(meteor_img, (80, 80))
+#meteor_img = pygame.image.load("cgeese_ball.png")
+#meteor_img = pygame.transform.scale(meteor_img, (100, 100))
 #-----------------------------------------------------------------
 
 WHITE = (255, 255, 255)
@@ -48,7 +49,7 @@ BROWN = (238, 203, 173)
 RED = (255, 0, 0)
 
 x = WIDTH // 2
-y = HEIGHT - 50
+y = HEIGHT - 90
 speed = 5  
 
 bullets = []
@@ -147,7 +148,7 @@ while running:
                     bullets.append([x, y - 10])
                 
     screen.blit(background, (0, 0))
-    screen.blit(rocket_img, (x - 15, y))
+    screen.blit(rocket_img, (x - 40, y))
     
     if shield_active and time.time() - shield_start_time > 3:  
         shield_active = False 
@@ -185,7 +186,7 @@ while running:
         shield_start_time = time.time()
     
     if shield_active:
-        pygame.draw.circle(screen, BLUE, (x, y + 30), 40, 3)
+        pygame.draw.circle(screen, BLUE, (x, y + 40), 50, 3)
     
     for bullet in bullets:
         pygame.draw.circle(screen, BLUE, (bullet[0], bullet[1]), 5)
